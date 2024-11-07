@@ -1,0 +1,30 @@
+{
+  "name": "markcus-diff",
+  "version": "1.0.0",
+  "description": "A tool to analyze and reconstruct project structures",
+  "main": "./commands/index.mjs",
+  "bin": {
+    "markcus-diff": "./cli.mjs"
+  },
+  "type": "module",
+  "keywords": [
+    "project-analysis",
+    "code-generator",
+    "project-structure"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "ignore": "^6.0.2"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.1"
+  },
+  "scripts": {
+    "test": "npx vitest"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
