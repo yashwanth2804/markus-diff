@@ -51,21 +51,34 @@ export function cleanupTemporaryMerge(originalBranch) {
 
 export function getGitInfo() {
     try {
-        const branch = getCurrentBranch();
+        const sourceBranch = getCurrentBranch();
         const lastCommit = execSync('git log -1 --format="%H|%s|%an|%ad"', { encoding: 'utf-8' }).trim();
         const [hash, subject, author, date] = lastCommit.split('|');
 
+        // Get the merge base commit between current branch and master
+        const mergeBase = execSync(`git merge-base ${sourceBranch} master`, { encoding: 'utf-8' }).trim();
+
+        // Get number of commits ahead/behind master
+        const ahead = execSync(`git rev-list ${mergeBase}..${sourceBranch} --count`, { encoding: 'utf-8' }).trim();
+        const behind = execSync(`git rev-list ${mergeBase}..master --count`, { encoding: 'utf-8' }).trim();
+
         return {
-            branch,
+            sourceBranch,
+            targetBranch: 'master',
+            branchStatus: {
+                ahead: parseInt(ahead),
+                behind: parseInt(behind),
+                mergeBase: mergeBase.substring(0, 8) // First 8 chars of merge-base hash
+            },
             lastCommit: {
                 hash,
                 subject,
                 author,
                 date
-            },
-            targetBranch: 'master' // We're always comparing against master for now
+            }
         };
     } catch (error) {
+        console.warn('Warning: Could not get complete Git info:', error.message);
         return null;
     }
 } 

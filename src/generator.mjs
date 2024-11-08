@@ -14,8 +14,9 @@ export function generateOutput({
         generatorVersion: "1.0.1",
         timestamp: new Date().toISOString(),
         git: gitInfo ? {
-            sourceBranch: gitInfo.branch,
+            sourceBranch: gitInfo.sourceBranch,
             targetBranch: gitInfo.targetBranch,
+            branchStatus: gitInfo.branchStatus,
             lastCommit: gitInfo.lastCommit
         } : undefined,
         structure: {
