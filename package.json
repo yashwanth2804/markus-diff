@@ -1,6 +1,6 @@
 {
-  "name": "markcus-diff",
-  "version": "1.0.0",
+  "name": "markus-diff",
+  "version": "1.0.1",
   "description": "A tool to analyze and reconstruct project structures",
   "main": "./commands/index.mjs",
   "bin": {

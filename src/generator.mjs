@@ -3,11 +3,14 @@ export function generateOutput({
     structure,
     files,
     dependencies,
-    devDependencies
+    devDependencies,
+    versionTag
 }) {
     return {
         name,
         type: "project:analysis",
+        version: versionTag,
+        generatorVersion: "1.0.1",
         timestamp: new Date().toISOString(),
         structure: {
             framework: structure.framework,
