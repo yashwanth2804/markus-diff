@@ -95,7 +95,7 @@ describe('Git Analysis Tests', () => {
         const options = {
             dir: testProjectDir,
             output: outputFile,
-            git: true
+            gitMaster: true
         };
 
         await analyzeWithGit(options);
@@ -129,7 +129,7 @@ describe('Git Analysis Tests', () => {
         const options = {
             dir: testProjectDir,
             output: outputFile,
-            git: true
+            gitMaster: true
         };
 
         // The analysis should handle the conflict and exit gracefully
@@ -143,7 +143,7 @@ describe('Git Analysis Tests', () => {
         const options = {
             dir: testProjectDir,
             output: outputFile,
-            git: true
+            gitMaster: true
         };
 
         await analyzeWithGit(options);

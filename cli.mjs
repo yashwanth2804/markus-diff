@@ -14,9 +14,9 @@ program
     .option("-o, --output <path>", "Output file path", "./code.json")
     .option("-n, --name <name>", "Project name")
     .option("-v, --version-tag <version>", "Version tag for the analysis", "1.0.0")
-    .option("--git", "Analyze changes from current branch against master")
+    .option("--git-master", "Analyze changes from current branch against master")
     .action(async (options) => {
-        if (options.git) {
+        if (options.gitMaster) {
             await analyzeWithGit(options);
         } else {
             generateAnalysis(options);

@@ -49,7 +49,7 @@ Options:
 
 ### Git-based Analysis
 ```bash
-markus-diff --git -o ./analysis.json
+markus-diff --git-master -o ./analysis.json
 ```
 
 This command will:
