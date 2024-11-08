@@ -1,6 +1,6 @@
 {
   "name": "markus-diff",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "A tool to analyze and reconstruct project structures",
   "main": "./commands/index.mjs",
   "bin": {
@@ -19,10 +19,11 @@
     "ignore": "^6.0.2"
   },
   "devDependencies": {
-    "vitest": "^2.1.1"
+    "vitest": "^2.1.1",
+    "ignore": "^6.0.2"
   },
   "scripts": {
-    "test": "npx vitest"
+    "test": "vitest"
   },
   "publishConfig": {
     "access": "public"

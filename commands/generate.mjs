@@ -1,17 +1,15 @@
+import { execSync } from "child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { scanProject } from "../src/scanner.mjs";
 import { generateOutput } from "../src/generator.mjs";
-import { getCurrentBranch, stashChanges, popStashedChanges, setupTemporaryMerge, cleanupTemporaryMerge, getGitInfo } from "../src/gitUtils.mjs";
+import { getCurrentBranch, stashChanges, popStashedChanges, setupTemporaryMerge, cleanupTemporaryMerge, getLastCommitInfo } from "../src/gitUtils.mjs";
 
 export function generateAnalysis(options) {
     const projectDir = path.resolve(options.dir);
     const outputPath = path.resolve(options.output);
     const name = options.name || path.basename(projectDir);
     const versionTag = options.versionTag;
-
-    // Get Git info if --git flag is used
-    const gitInfo = options.git ? getGitInfo() : null;
 
     // Scan project directory
     const projectData = scanProject(projectDir);
@@ -20,7 +18,7 @@ export function generateAnalysis(options) {
     const output = generateOutput({
         name,
         versionTag,
-        gitInfo,
+        gitInfo: options.gitInfo, // Pass through gitInfo from options
         ...projectData
     });
 
@@ -47,8 +45,25 @@ export async function analyzeWithGit(options) {
             process.exit(1);
         }
 
-        // Generate analysis from the merged state
-        await generateAnalysis(options);
+        // Calculate branch status
+        const mergeBase = execSync(`git merge-base ${originalBranch} master`, { encoding: 'utf-8' }).trim();
+        const ahead = execSync(`git rev-list ${mergeBase}..${originalBranch} --count`, { encoding: 'utf-8' }).trim();
+        const behind = execSync(`git rev-list ${mergeBase}..master --count`, { encoding: 'utf-8' }).trim();
+
+        // Generate analysis from the merged state with Git info
+        await generateAnalysis({
+            ...options,
+            gitInfo: {
+                sourceBranch: originalBranch,
+                targetBranch: 'master',
+                branchStatus: {
+                    ahead: parseInt(ahead),
+                    behind: parseInt(behind),
+                    mergeBase: mergeBase.substring(0, 8)
+                },
+                lastCommit: getLastCommitInfo(originalBranch)
+            }
+        });
 
         // Cleanup
         cleanupTemporaryMerge(originalBranch);
