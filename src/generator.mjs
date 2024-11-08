@@ -4,7 +4,8 @@ export function generateOutput({
     files,
     dependencies,
     devDependencies,
-    versionTag
+    versionTag,
+    gitInfo
 }) {
     return {
         name,
@@ -12,6 +13,11 @@ export function generateOutput({
         version: versionTag,
         generatorVersion: "1.0.1",
         timestamp: new Date().toISOString(),
+        git: gitInfo ? {
+            sourceBranch: gitInfo.branch,
+            targetBranch: gitInfo.targetBranch,
+            lastCommit: gitInfo.lastCommit
+        } : undefined,
         structure: {
             framework: structure.framework,
             hasTypescript: structure.hasTypescript,

@@ -2,13 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { scanProject } from "../src/scanner.mjs";
 import { generateOutput } from "../src/generator.mjs";
-import { getCurrentBranch, stashChanges, popStashedChanges, setupTemporaryMerge, cleanupTemporaryMerge } from "../src/gitUtils.mjs";
+import { getCurrentBranch, stashChanges, popStashedChanges, setupTemporaryMerge, cleanupTemporaryMerge, getGitInfo } from "../src/gitUtils.mjs";
 
 export function generateAnalysis(options) {
     const projectDir = path.resolve(options.dir);
     const outputPath = path.resolve(options.output);
     const name = options.name || path.basename(projectDir);
     const versionTag = options.versionTag;
+
+    // Get Git info if --git flag is used
+    const gitInfo = options.git ? getGitInfo() : null;
 
     // Scan project directory
     const projectData = scanProject(projectDir);
@@ -17,6 +20,7 @@ export function generateAnalysis(options) {
     const output = generateOutput({
         name,
         versionTag,
+        gitInfo,
         ...projectData
     });
 

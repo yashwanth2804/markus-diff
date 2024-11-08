@@ -77,6 +77,16 @@ Note: Ensure your git working directory is clean or has changes that can be safe
   "version": "1.0.1",
   "generatorVersion": "1.0.1",
   "timestamp": "2024-03-21T10:00:00.000Z",
+  "git": {
+    "sourceBranch": "feature/new-feature",
+    "targetBranch": "master",
+    "lastCommit": {
+      "hash": "abc123...",
+      "subject": "Add new feature",
+      "author": "John Doe",
+      "date": "Wed Mar 20 2024 10:00:00 GMT+0000"
+    }
+  },
   "structure": {
     "framework": "react",
     "hasTypescript": true,

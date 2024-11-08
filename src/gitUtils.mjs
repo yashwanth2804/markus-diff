@@ -47,4 +47,25 @@ export function cleanupTemporaryMerge(originalBranch) {
 
     // Return to original branch
     execSync(`git checkout ${originalBranch}`, { stdio: 'pipe' });
+}
+
+export function getGitInfo() {
+    try {
+        const branch = getCurrentBranch();
+        const lastCommit = execSync('git log -1 --format="%H|%s|%an|%ad"', { encoding: 'utf-8' }).trim();
+        const [hash, subject, author, date] = lastCommit.split('|');
+
+        return {
+            branch,
+            lastCommit: {
+                hash,
+                subject,
+                author,
+                date
+            },
+            targetBranch: 'master' // We're always comparing against master for now
+        };
+    } catch (error) {
+        return null;
+    }
 } 
