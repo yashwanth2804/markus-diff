@@ -11,6 +11,7 @@ A powerful tool to analyze and reconstruct project structures. This tool helps y
 - 📦 Dependencies Management
 - 🚫 Respects .gitignore
 - 🔍 Detailed Project Statistics
+- 🔄 Git-based Analysis
 
 ## Installation
 
@@ -45,6 +46,27 @@ markus-diff init -i ./analysis.json -d ./new-project
 Options:
 - `-i, --input <file>` - Analysis JSON file (required)
 - `-d, --dir <directory>` - Target directory (default: current directory)
+
+### Git-based Analysis
+```bash
+markus-diff --git -o ./analysis.json
+```
+
+This command will:
+1. Safely stash any uncommitted changes
+2. Switch to master branch
+3. Create a temporary merge state with your current branch
+4. Generate the analysis from this merged state
+5. Clean up the merge and return to your original branch
+6. Restore any stashed changes
+
+This is particularly useful for:
+- Analyzing changes before merging to master
+- Reviewing the impact of your branch changes
+- Generating documentation for pull requests
+- Validating project structure modifications
+
+Note: Ensure your git working directory is clean or has changes that can be safely stashed.
 
 ## Generated Output Structure
 
