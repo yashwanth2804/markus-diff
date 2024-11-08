@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from "commander";
-import { generateAnalysis } from "./commands/generate.mjs";
+import { generateAnalysis, analyzeWithGit } from "./commands/generate.mjs";
 import { initializeProject } from "./commands/init.mjs";
 import { execSync } from "child_process";
 
